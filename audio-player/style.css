@@ -58,6 +58,7 @@ body {
   height: 50px;
   background-image: url("./assets/svg/play_button.svg");
   cursor: pointer;
+  transition: 0.3s linear;
 }
 
 .song-info {
@@ -89,6 +90,7 @@ body {
     height: 30px;
     background-image: url("./assets/svg/next_play.svg");
     cursor: pointer;
+    transition: 0.3s linear;
 }
 
 .prev-btn {
@@ -96,6 +98,7 @@ body {
     height: 30px;
     background-image: url("./assets/svg/prev_play.svg");
     cursor: pointer;
+    transition: 0.3s linear;
 }
 
 .time {
@@ -174,6 +177,12 @@ a {
 @media (any-hover: hover) {
     a:hover {
       color: #47b49e;
+      transform: scale(1.1);
       transition: 0.1s linear;
+    }
+
+    .play-btn:hover, .next-btn:hover, .prev-btn:hover {
+        transform: scale(1.2);
+        transition: 0.1s linear;
     }
   }
