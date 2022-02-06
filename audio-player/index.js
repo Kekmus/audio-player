@@ -64,29 +64,23 @@ function togglePlayBtn() {
     switchPlayAudio()
 }
 
-function switchNumber(type) {
-    if (type === 'next-btn' || type.contains('next-btn')) {
+function switchNumber(direction) {
+    if (direction === 'next') {
         numberSongNow++
         numberSongNow %= songs.length
         return
     }
-    if (type.contains('prev-btn')) {
+    if (direction === 'prev') {
         numberSongNow--
         if (numberSongNow < 0) numberSongNow = songs.length - 1;
         return
     }
-    throw new Error('Uncknown btn')
-}
-
-function PlusNumber () {
+    throw new Error('Uncknown directionб available directions: next, prev')
 }
 
 function switchAudio (event) {
-    let type;
-    if(event != 'next-btn') {
-        type = event.target.classList
-    } else type = event;
-    switchNumber(type)
+    const direction = getSwitchDirection(event)
+    switchNumber(direction)
     if(isPlay)  {
         switchPlayAudio();
         switchAudioInfo ()
@@ -97,10 +91,31 @@ function switchAudio (event) {
     }
 }
 
+function getSwitchDirection(event) {
+    if(typeof event == 'string') {
+        return event
+    }
+    if (event.target.classList.contains('next-btn')) return 'next';
+    if (event.target.classList.contains('prev-btn')) return 'prev';
+}
+
 function changeTime () {
     const timelineWidth = window.getComputedStyle(timeline).width;
     const timeToSeek = event.offsetX / parseInt(timelineWidth) * audio.duration;
     audio.currentTime = timeToSeek;
+}
+
+function keyСontrol (x) {
+    code = x.code
+    console.log(1)
+    switch (code) {
+        case 'ArrowRight':
+            switchAudio('next')
+            break
+        case 'ArrowLeft':
+            switchAudio('prev')
+            break
+    }
 }
 
 
@@ -109,9 +124,10 @@ timeline.addEventListener("click", changeTime, false);
 playBtn.addEventListener('click', togglePlayBtn);
 nextBtn.addEventListener('click', switchAudio);
 prevBtn.addEventListener('click', switchAudio);
+document.addEventListener('keydown', keyСontrol)
 
 setInterval(() => {
     progressBar.style.width = audio.currentTime / audio.duration * 100 + '%'
     currentTime.textContent = getTimeCodeFromNum(audio.currentTime)
-    if (audio.currentTime === audio.duration) switchAudio('next-btn');
+    if (audio.currentTime === audio.duration) switchAudio('next');
 }, 500)
