@@ -44,7 +44,7 @@ body {
     top: -5px;
     height: 150px;
     border-radius: 0 0 10px 10px;
-    background-color: firebrick;
+    background-image: linear-gradient(30deg, #080904, #29313c);
 }
 
 .controls-wrapper {
@@ -122,7 +122,7 @@ body {
 }
 
 .progress {
-    background: rebeccapurple;
+    background: #47b49e;
     width: 0%;
     height: 100%;
     transition: 0.25s;
@@ -151,7 +151,29 @@ body {
 
 .regular-text {
     font-family: 'Inter', sans-serif;
-    font-size: 20px;
+    font-size: 18px;
     color: white;
     text-decoration: none;
 }
+
+.time-text {
+    font-size: 16px;
+}
+
+.author-text {
+    font-size: 24px;
+    color: #47b49e;
+    font-weight: bold;
+
+}
+
+a {
+    transition: 0.3s linear;
+}
+
+@media (any-hover: hover) {
+    a:hover {
+      color: #47b49e;
+      transition: 0.1s linear;
+    }
+  }
