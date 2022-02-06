@@ -1,4 +1,3 @@
-let audio;
 const playBtn = document.querySelector('.play-btn');
 const nextBtn = document.querySelector('.next-btn');
 const prevBtn = document.querySelector('.prev-btn');
@@ -7,6 +6,9 @@ const songName = document.querySelector('.song-name');
 const songImgs = document.querySelectorAll('.song-img');
 const songLength = document.querySelector(".length-time");
 const currentTime = document.querySelector(".current-time");
+const progressBar = document.querySelector(".progress");
+const timeline = document.querySelector(".timeline");
+let audio;
 let isPlay = false;
 let numberSongNow = 0;
 
@@ -62,9 +64,8 @@ function togglePlayBtn() {
     switchPlayAudio()
 }
 
-function switchNumber() {
-    const type = event.target.classList
-    if (type.contains('next-btn')) {
+function switchNumber(type) {
+    if (type === 'next-btn' || type.contains('next-btn')) {
         numberSongNow++
         numberSongNow %= songs.length
         return
@@ -77,8 +78,15 @@ function switchNumber() {
     throw new Error('Uncknown btn')
 }
 
-function switchAudio () {
-    switchNumber()
+function PlusNumber () {
+}
+
+function switchAudio (event) {
+    let type;
+    if(event != 'next-btn') {
+        type = event.target.classList
+    } else type = event;
+    switchNumber(type)
     if(isPlay)  {
         switchPlayAudio();
         switchAudioInfo ()
@@ -89,13 +97,21 @@ function switchAudio () {
     }
 }
 
+function changeTime () {
+    const timelineWidth = window.getComputedStyle(timeline).width;
+    const timeToSeek = event.offsetX / parseInt(timelineWidth) * audio.duration;
+    audio.currentTime = timeToSeek;
+}
 
 
 switchAudioInfo ()
-setInterval(() => {
-    currentTime.textContent = getTimeCodeFromNum(audio.currentTime)
-}, 1000)
-
+timeline.addEventListener("click", changeTime, false);
 playBtn.addEventListener('click', togglePlayBtn);
 nextBtn.addEventListener('click', switchAudio);
 prevBtn.addEventListener('click', switchAudio);
+
+setInterval(() => {
+    progressBar.style.width = audio.currentTime / audio.duration * 100 + '%'
+    currentTime.textContent = getTimeCodeFromNum(audio.currentTime)
+    if (audio.currentTime === audio.duration) switchAudio('next-btn');
+}, 500)
